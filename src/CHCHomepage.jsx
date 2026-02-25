@@ -69,13 +69,13 @@ function ChallengeOverlay({ onClose, onExplore }) {
       position: "fixed", inset: 0, zIndex: 200,
       display: "flex", alignItems: "flex-end", justifyContent: "center",
       animation: "fadeIn .25s ease",
-      maxWidth: 360, margin: "0 auto",
+      maxWidth: 480, margin: "0 auto",
     }}>
       <div onClick={onClose} style={{
         position: "absolute", inset: 0, background: "rgba(37,37,43,0.50)",
       }} />
       <div style={{
-        position: "relative", width: 360, background: T.fillCard,
+        position: "relative", width: "100%", maxWidth: 480, background: T.fillCard,
         borderTopLeftRadius: 8, borderTopRightRadius: 8,
         boxShadow: "0 0 12px rgba(0,0,0,0.15)",
         animation: "slideUp .35s cubic-bezier(.16,1,.3,1)",
@@ -96,7 +96,7 @@ function ChallengeOverlay({ onClose, onExplore }) {
           alignItems: "center", gap: 16,
         }}>
           <img src={IMG_OVERLAY_BANNER} alt="Go Beyond Your Score" style={{
-            width: 328, height: 174, borderRadius: T.rCard, objectFit: "cover",
+            width: "100%", maxWidth: 328, height: "auto", aspectRatio: "328/174", borderRadius: T.rCard, objectFit: "cover",
           }} />
           <div style={{ textAlign: "center" }}>
             <p style={{ ...txt(T.display2), color: T.textAccent, margin: "0 0 8px" }}>
@@ -153,7 +153,7 @@ function ChallengePage({ onBack }) {
   return (
     <div style={{
       fontFamily: T.font, background: T.fillBase,
-      maxWidth: 360, margin: "0 auto", minHeight: "100vh",
+      maxWidth: 480, margin: "0 auto", minHeight: "100vh", width: "100%",
     }}>
       {/* Header */}
       <div style={{
@@ -349,9 +349,77 @@ function BannerCarousel({ onBannerClick }) {
 }
 
 /* ══════════════════════════════════════════════════════ */
+/* ── Password Gate ── */
+/* ══════════════════════════════════════════════════════ */
+function PasswordGate({ onSuccess }) {
+  const [pw, setPw] = useState("");
+  const [error, setError] = useState(false);
+
+  const handleSubmit = () => {
+    if (pw === "chc-new-feature") {
+      onSuccess();
+    } else {
+      setError(true);
+      setTimeout(() => setError(false), 1500);
+    }
+  };
+
+  return (
+    <div style={{
+      fontFamily: T.font, background: "linear-gradient(170deg, #2d62c0 0%, #002981 55%, #001a5c 100%)",
+      maxWidth: 480, margin: "0 auto", minHeight: "100vh",
+      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+      padding: "32px 24px", boxSizing: "border-box", width: "100%",
+    }}>
+      <div style={{ ...txt(T.title1), color: T.primary, fontWeight: 800, fontStyle: "italic", letterSpacing: -0.5, marginBottom: 32 }}>
+        <span style={{ color: "#fff" }}>Money</span><span style={{ color: T.ctaOrange }}>Hero</span>
+      </div>
+      <div style={{
+        background: T.fillCard, borderRadius: T.rCard, padding: 24, width: "100%",
+        display: "flex", flexDirection: "column", gap: 16,
+        boxShadow: "0 4px 24px rgba(0,0,0,0.2)",
+      }}>
+        <p style={{ ...txt(T.subheading1), color: T.textPrimary, margin: 0, textAlign: "center" }}>
+          Enter Password
+        </p>
+        <p style={{ ...txt(T.body2), color: T.textSecondaryLighter, margin: 0, textAlign: "center" }}>
+          This prototype is password-protected.
+        </p>
+        <input
+          type="password"
+          value={pw}
+          onChange={(e) => setPw(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+          placeholder="Password"
+          style={{
+            width: "100%", height: 44, borderRadius: T.rButton,
+            border: `1px solid ${error ? "#e53935" : T.borders}`,
+            padding: "0 12px", ...txt(T.body1), color: T.textPrimary,
+            outline: "none", boxSizing: "border-box",
+            transition: "border-color .2s",
+          }}
+          autoFocus
+        />
+        {error && (
+          <p style={{ ...txt(T.caption), color: "#e53935", margin: 0, textAlign: "center" }}>
+            Incorrect password. Please try again.
+          </p>
+        )}
+        <button onClick={handleSubmit} style={{
+          width: "100%", height: 36, borderRadius: T.rButton,
+          background: T.primary, border: "none", cursor: "pointer",
+          ...txt(T.button1), color: T.textOnDark,
+        }}>Enter</button>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════ */
 /* ── Main App (router) ── */
 /* ══════════════════════════════════════════════════════ */
 export default function CHCHomepage() {
+  const [authed, setAuthed] = useState(false);
   const [page, setPage] = useState("home");
   const [showOverlay, setShowOverlay] = useState(false);
 
@@ -366,6 +434,10 @@ export default function CHCHomepage() {
     return () => window.removeEventListener("popstate", onPop);
   }, []);
 
+  if (!authed) {
+    return <PasswordGate onSuccess={() => setAuthed(true)} />;
+  }
+
   if (page === "challenge") {
     return <ChallengePage onBack={() => setPage("home")} />;
   }
@@ -374,8 +446,8 @@ export default function CHCHomepage() {
     <>
     <div style={{
       fontFamily: T.font, background: T.fillBase,
-      maxWidth: 360, margin: "0 auto", position: "relative",
-      minHeight: "100vh", overflowX: "hidden",
+      maxWidth: 480, margin: "0 auto", position: "relative",
+      minHeight: "100vh", overflowX: "hidden", width: "100%",
     }}>
       <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
