@@ -355,6 +355,17 @@ export default function CHCHomepage() {
   const [page, setPage] = useState("home");
   const [showOverlay, setShowOverlay] = useState(false);
 
+  const navigateTo = (p) => {
+    if (p !== "home") window.history.pushState({ page: p }, "", `#${p}`);
+    setPage(p);
+  };
+
+  useEffect(() => {
+    const onPop = () => setPage("home");
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+
   if (page === "challenge") {
     return <ChallengePage onBack={() => setPage("home")} />;
   }
@@ -576,7 +587,7 @@ export default function CHCHomepage() {
     {showOverlay && (
       <ChallengeOverlay
         onClose={() => setShowOverlay(false)}
-        onExplore={() => { setShowOverlay(false); setPage("challenge"); }}
+        onExplore={() => { setShowOverlay(false); navigateTo("challenge"); }}
       />
     )}
     </>
