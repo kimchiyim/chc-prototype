@@ -485,8 +485,10 @@ export default function CHCHomepage() {
       {/* Explainer dim overlay */}
       {showExplainer && (
         <div onClick={() => dismissExplainer("skip")} style={{
-          position: "fixed", inset: 0, zIndex: 150,
+          position: "fixed", top: 0, bottom: 0, left: "50%", transform: "translateX(-50%)",
+          width: "100%", maxWidth: 480, zIndex: 150,
           background: "rgba(0,0,0,0.6)",
+          backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)",
         }} />
       )}
 
@@ -618,17 +620,17 @@ export default function CHCHomepage() {
                   display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 8,
                 }}>
                   <button onClick={(e) => { e.stopPropagation(); dismissExplainer("snooze"); }} style={{
-                    height: 32, borderRadius: T.rButton,
+                    height: 30, borderRadius: T.rButton,
                     background: "transparent", border: `1px solid ${T.primary}`,
                     cursor: "pointer", padding: "0 12px",
                     ...txt(T.button2), color: T.primary,
-                  }}>Remind me later</button>
+                  }}>Remind Me Later</button>
                   <button onClick={(e) => { e.stopPropagation(); dismissExplainer("hide-always"); }} style={{
-                    height: 32, borderRadius: T.rButton,
+                    height: 30, borderRadius: T.rButton,
                     background: T.primary, border: "none",
                     cursor: "pointer", padding: "0 12px",
                     ...txt(T.button2), color: T.textOnDark,
-                  }}>Got it</button>
+                  }}>Got It</button>
                 </div>
               </div>
             </div>
