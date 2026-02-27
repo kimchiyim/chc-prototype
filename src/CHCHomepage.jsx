@@ -648,11 +648,11 @@ export default function CHCHomepage() {
                 width: 0, height: 0, marginLeft: 24,
                 borderLeft: "8px solid transparent",
                 borderRight: "8px solid transparent",
-                borderBottom: "8px solid #E7EBF6",
+                borderBottom: "8px solid #FFFFFF",
               }} />
               {/* Tooltip body */}
               <div style={{
-                background: "#E7EBF6", borderRadius: T.rCard,
+                background: "#FFFFFF", borderRadius: T.rCard,
                 padding: "16px 16px 14px",
                 display: "flex", flexDirection: "column", gap: 12,
                 boxShadow: "0 4px 16px rgba(0,0,0,0.15)",
@@ -669,12 +669,12 @@ export default function CHCHomepage() {
                     cursor: "pointer", padding: "0 12px",
                     ...txt(T.button2), color: T.primary,
                   }}>Remind Me Later</button>
-                  <button onClick={(e) => { e.stopPropagation(); dismissExplainer("hide-always"); }} style={{
+                  <button onClick={(e) => { e.stopPropagation(); dismissExplainer("hide-always"); navigateTo("challenge"); }} style={{
                     height: 30, borderRadius: T.rButton,
                     background: T.primary, border: "none",
                     cursor: "pointer", padding: "0 12px",
                     ...txt(T.button2), color: T.textOnDark,
-                  }}>Got It</button>
+                  }}>Try Now</button>
                 </div>
               </div>
             </div>
